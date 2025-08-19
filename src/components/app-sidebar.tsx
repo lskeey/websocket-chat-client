@@ -8,100 +8,76 @@ import {
   SidebarGroupContent,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { ModeToggle } from "./mode-toggle";
 import { SearchForm } from "./search-form";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { ProfileDropdown } from "./profile-dropdown";
+import { getInitials } from "@/lib/utils";
 
-// This is sample data
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  mails: [
+  messages: [
     {
-      name: "William Smith",
-      email: "williamsmith@example.com",
-      subject: "Meeting Tomorrow",
-      date: "09:34 AM",
-      teaser:
-        "Hi team, just a reminder about our meeting tomorrow at 10 AM.\nPlease come prepared with your project updates.",
+      name: "Emma Carter",
+      date: "18.00",
+      last_message: "Nice, I'll check it out then. Thanks for the heads-up!",
     },
     {
-      name: "Alice Smith",
-      email: "alicesmith@example.com",
-      subject: "Re: Project Update",
-      date: "Yesterday",
-      teaser:
-        "Thanks for the update. The progress looks great so far.\nLet's schedule a call to discuss the next steps.",
+      name: "Lucas Bennett",
+      date: "16/08/2025",
+      last_message:
+        "Solid progress, man! Let's set up a call to talk about the next steps, cool?",
     },
     {
-      name: "Bob Johnson",
-      email: "bobjohnson@example.com",
-      subject: "Weekend Plans",
-      date: "2 days ago",
-      teaser:
-        "Hey everyone! I'm thinking of organizing a team outing this weekend.\nWould you be interested in a hiking trip or a beach day?",
+      name: "Noah Hayes",
+      date: "15/08/2025",
+      last_message:
+        "Yo, what if we do a team outing this weekend? Hiking or beach vibes—whatcha think?",
     },
     {
-      name: "Emily Davis",
-      email: "emilydavis@example.com",
-      subject: "Re: Question about Budget",
-      date: "2 days ago",
-      teaser:
-        "I've reviewed the budget numbers you sent over.\nCan we set up a quick call to discuss some potential adjustments?",
+      name: "Ava Thompson",
+      date: "15/08/2025",
+      last_message:
+        "I checked the budget you sent. Can we hop on a quick call to go over a few tweaks?",
     },
     {
-      name: "Michael Wilson",
-      email: "michaelwilson@example.com",
-      subject: "Important Announcement",
-      date: "1 week ago",
-      teaser:
-        "Please join us for an all-hands meeting this Friday at 3 PM.\nWe have some exciting news to share about the company's future.",
+      name: "Ethan Brooks",
+      date: "10/08/2025",
+      last_message:
+        "Heads-up, big meeting tomorrow at 3 PM. They’re dropping some major company updates.",
     },
     {
-      name: "Sarah Brown",
-      email: "sarahbrown@example.com",
-      subject: "Re: Feedback on Proposal",
-      date: "1 week ago",
-      teaser:
-        "Thank you for sending over the proposal. I've reviewed it and have some thoughts.\nCould we schedule a meeting to discuss my feedback in detail?",
+      name: "Isabella Reed",
+      date: "10/08/2025",
+      last_message:
+        "I reviewed your proposal. Got a few notes—wanna chat about it soon?",
     },
     {
-      name: "David Lee",
-      email: "davidlee@example.com",
-      subject: "New Project Idea",
-      date: "1 week ago",
-      teaser:
-        "I've been brainstorming and came up with an interesting project concept.\nDo you have time this week to discuss its potential impact and feasibility?",
+      name: "Mason Ford",
+      date: "10/08/2025",
+      last_message:
+        "Got a new project idea—think it could be a game-changer. Can we talk it over?",
     },
     {
-      name: "Olivia Wilson",
-      email: "oliviawilson@example.com",
-      subject: "Vacation Plans",
-      date: "1 week ago",
-      teaser:
-        "Just a heads up that I'll be taking a two-week vacation next month.\nI'll make sure all my projects are up to date before I leave.",
+      name: "Olivia Grant",
+      date: "10/08/2025",
+      last_message:
+        "I’m taking a two-week vacation next month, so I’ll make sure all my tasks are done before then.",
     },
     {
-      name: "James Martin",
-      email: "jamesmartin@example.com",
-      subject: "Re: Conference Registration",
-      date: "1 week ago",
-      teaser:
-        "I've completed the registration for the upcoming tech conference.\nLet me know if you need any additional information from my end.",
+      name: "Liam Parker",
+      date: "10/08/2025",
+      last_message:
+        "Just signed us up for the conference. Hit me up if you need more details!",
     },
     {
-      name: "Sophia White",
-      email: "sophiawhite@example.com",
-      subject: "Team Dinner",
-      date: "1 week ago",
-      teaser:
-        "To celebrate our recent project success, I'd like to organize a team dinner.\nAre you available next Friday evening? Please let me know your preferences.",
+      name: "Sophia Lane",
+      date: "10/08/2025",
+      last_message:
+        "How about a team dinner to celebrate the project win? Anyone free Friday night?",
     },
   ],
 };
+
+export default data;
 
 export function AppSidebar() {
   return (
@@ -110,33 +86,32 @@ export function AppSidebar() {
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-foreground text-base font-medium">Chats</div>
-            <ModeToggle />
+            <ProfileDropdown />
           </div>
           <SearchForm />
         </SidebarHeader>
-        <SidebarContent className="scrollbar-hide">
+        <SidebarContent className="custom-scrollbar">
           <SidebarGroup className="px-0">
             <SidebarGroupContent>
-              {data.mails.map((mail) => (
+              {data.messages.map((message, index) => (
                 <a
                   href="#"
-                  key={mail.email}
+                  key={index}
                   className="group hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex items-center gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0"
                 >
                   <Avatar className="size-12">
-                    {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
                     <AvatarImage src="#" />
                     <AvatarFallback className="group-hover:bg-sidebar">
-                      CN
+                      {getInitials(message.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-2">
                     <div className="flex w-full items-center gap-2">
-                      <span>{mail.name}</span>{" "}
-                      <span className="ml-auto text-xs">{mail.date}</span>
+                      <span>{message.name}</span>{" "}
+                      <span className="ml-auto text-xs">{message.date}</span>
                     </div>
                     <span className="line-clamp-1 w-[260px] text-xs whitespace-break-spaces">
-                      {mail.teaser}
+                      {message.last_message}
                     </span>
                   </div>
                 </a>
