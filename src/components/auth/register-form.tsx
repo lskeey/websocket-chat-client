@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,16 +13,38 @@ export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { token } = await register(username, password);
+      localStorage.setItem("token", token);
+      router.push("/login");
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Create an account</h1>{" "}
                 <p className="text-muted-foreground text-balance">
-                  Register to your account
+                  Register your account
                 </p>
               </div>
               <div className="grid gap-3">
@@ -27,6 +53,8 @@ export function RegisterForm({
                   id="username"
                   type="text"
                   placeholder="johndoe"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
               </div>
@@ -34,10 +62,21 @@ export function RegisterForm({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
               </div>
-              <Button type="submit" className="w-full cursor-pointer">
-                Register
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              <Button
+                type="submit"
+                className="w-full cursor-pointer"
+                disabled={loading}
+              >
+                {loading ? "Registering..." : "Register"}
               </Button>
               <div className="text-center text-sm">
                 Already have an account?{" "}

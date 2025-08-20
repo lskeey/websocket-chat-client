@@ -1,5 +1,5 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import ChatContainer from "@/components/chat-container";
+import { AppSidebar } from "@/components/layout/app-sidebar";
+import ChatContainer from "@/components/chat/chat-container";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
