@@ -25,3 +25,10 @@ export function getInitials(name: string): string {
     return (firstLetter + secondLetter).toUpperCase();
   }
 }
+
+export function formatTime(timestamp: Date | string | number): string {
+  return new Date(timestamp).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}

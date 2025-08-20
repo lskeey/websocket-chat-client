@@ -1,13 +1,6 @@
 import { format } from "date-fns";
 import ChatBubble from "./chat-bubble";
-
-interface Message {
-  ID: number;
-  Content: string;
-  SenderID: number;
-  RecipientID: number;
-  CreatedAt: string;
-}
+import { Message } from "@/types/message";
 
 interface ChatContainerProps {
   userId: number;
@@ -18,14 +11,12 @@ export default function ChatContainer({
   userId,
   messages,
 }: ChatContainerProps) {
-  // Fungsi untuk memformat tanggal menjadi "DD MMMM YYYY"
   const formatDate = (dateString: string): string => {
     return format(new Date(dateString), "dd MMMM yyyy");
   };
 
-  // Mengelompokkan pesan berdasarkan tanggal
   const groupedMessages = messages.reduce((acc, message) => {
-    const date = formatDate(message.CreatedAt);
+    const date = formatDate(message.created_at);
     if (!acc[date]) {
       acc[date] = [];
     }
@@ -41,7 +32,7 @@ export default function ChatContainer({
             <span className="bg-accent px-4 py-1 rounded-md">{date}</span>
           </div>
           {messages.map((message) => (
-            <ChatBubble key={message.ID} message={message} userId={userId} />
+            <ChatBubble key={message.id} message={message} userId={userId} />
           ))}
         </div>
       ))}

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Check, LogOut } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { getInitials } from "@/lib/utils";
 
 export function ProfileDropdown() {
@@ -24,7 +24,7 @@ export function ProfileDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" className="cursor-pointer">
           <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
@@ -49,7 +49,9 @@ export function ProfileDropdown() {
             Profile
           </DropdownMenuItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger className="cursor-pointer">
+              Theme
+            </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuItem

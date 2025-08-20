@@ -9,7 +9,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { SearchForm } from "./search-form";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ProfileDropdown } from "./profile-dropdown";
 import { getInitials } from "@/lib/utils";
 
@@ -107,7 +107,7 @@ export function AppSidebar() {
                   </Avatar>
                   <div className="space-y-2">
                     <div className="flex w-full items-center gap-2">
-                      <span>{message.name}</span>{" "}
+                      <span>{message.name}</span>
                       <span className="ml-auto text-xs">{message.date}</span>
                     </div>
                     <span className="line-clamp-1 w-[260px] text-xs whitespace-break-spaces">
