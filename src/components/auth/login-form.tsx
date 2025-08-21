@@ -7,19 +7,32 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertTitle } from "../ui/alert";
 import { CircleAlert } from "lucide-react";
 import Link from "next/link";
+import { login } from "@/services/api";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    console.log(username);
-    console.log(password);
+    try {
+      await login({ username, password });
+      router.push("/");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
