@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,10 +18,23 @@ import { EllipsisVertical, Check, LogOut } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { getInitials } from "@/lib/utils";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { clearAuthToken } from "@/services/api";
+import { useRouter } from "next/navigation";
 
 export function ProfileDropdown() {
   const { theme, setTheme } = useTheme();
-  const username = "John Doe";
+  const user = useCurrentUser();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    clearAuthToken();
+    router.push("/auth/login");
+  };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <DropdownMenu>
@@ -29,17 +44,16 @@ export function ProfileDropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
-        {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8 rounded-lg">
               {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
               <AvatarFallback className="rounded-lg">
-                {getInitials(username)}
+                {getInitials(user.username)}
               </AvatarFallback>
             </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{username}</span>
+            <div className="grid flex-1 text-left text-sm leading-tight capitalize">
+              <span className="truncate font-medium">{user.username}</span>
             </div>
           </div>
         </DropdownMenuLabel>
@@ -87,6 +101,7 @@ export function ProfileDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
+          onClick={handleLogout}
           className="cursor-pointer flex justify-between items-center"
           variant="destructive"
         >
